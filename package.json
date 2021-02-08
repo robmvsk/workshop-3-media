@@ -1,0 +1,20 @@
+{
+  "name": "workshop-3-media",
+  "version": "1.0.0",
+  "description": "curso Manipulación del DOM - workshop 3 reproductor de video",
+  "main": "/src/index.js",
+  "homepage": "https://robmvsk.github.io/workshop-3-media",
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "format": "prettier --write \"src/**/*.js\"",
+    "lint": "prettier --check \"src/**/*.js\""
+  },
+  "devDependencies": {
+    "husky": "^4.3.8",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^3.1.0",
+    "snowpack": "^3.0.11",
+    "tailwindcss": "^2.0.2"
+  }
+}
