@@ -20,7 +20,7 @@
       type="text/css"
       href="%PUBLIC_URL%/_dist_/index.css"
     />
-    <title>Snowpack & Tailwind App</title>
+    <title>Media player App</title>
   </head>
   <body>
     <!--
@@ -36,50 +36,113 @@
         <p
           class="text-base leading-6 text-indigo-600 font-semibold tracking-wide uppercase"
         >
-          Snowpack 🔇 ⏯️ 🔊 🔈  ⏯  🔇 🎚
+          Manipulación del DOM
         </p>
         <h3
-          class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+          class="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-3xl sm:leading-10"
         >
-          Tailwind template
+          ⏯️ ▶ Media Player 🔊 Workshop 3.2 🎚
         </h3>
-        <p class="mt-4 max-w-2xl text-xl leading-7 text-gray-500 mx-auto">
-          Use this template to build awesome websites using Snowpack and
-          Tailwind. It also includes Prettier and automatic publish to GitHub
-          pages using GitHub Actions. Learn more:
-        </p>
-        <ul
-          class="text-xl leading-7 sm:flex justify-around sm:max-w-2xl sm:mx-auto mt-10"
-        >
-          <li class="my-4 p-4 px-6 bg-gray-300 hover:bg-gray-500">
-            <a href="https://snowpack.dev" target="_blank">snowpack.dev</a>
-          </li>
-          <li class="my-4 p-4 px-6 bg-gray-300 hover:bg-gray-500">
-            <a href="https://tailwindcss.com" target="_blank"
-              >tailwindcss.com</a
-            >
-          </li>
-          <li class="my-4 p-4 px-6 bg-gray-300 hover:bg-gray-500">
-            <a
-              href="https://docs.github.com/en/free-pro-team@latest/actions"
-              target="_blank"
-              >GitHub Actions</a
-            >
-          </li>
-        </ul>
-        <p class="mt-14 text-xl leading-7 text-gray-500">Start using it:</p>
-        <div class="my-5 bg-gray-800 p-5 text-white">
-          <code>
-            npx create-snowpack-app my-app --template snowpack-template-tailwind
-          </code>
-        </div>
-        <p class="mt-16 text-xl leading-7 text-gray-500 underline">
-          <a href="https://github.com/jonalvarezz/snowpack-template-tailwind"
-            >See on GitHub</a
+
+        <main id="player" class="container p-2 m-4">
+          <span id="btn-play-inicio" class="mx-auto border-4 border-solid rounded-full w-24 h-24 pl-4 flex items-center justify-center">▷</span>
+          <video
+            id="movie"
+            class="w-2/3 mx-auto rounded-lg"            
+            height="250"
+            poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
           >
-        </p>
+            <source src="%PUBLIC_URL%/_dist_/assets/BigBuckBunny.mp4" type="video/mp4"/>
+            Tu navegador no soporta los vídeos de HTML5
+          </video>
+
+          <div id="controls-video" class="controls flex items-center w-2/3 h-auto mx-auto bg-black bg-opacity-30 rounded-lg">
+            <button
+              id="buttonPlay"
+              class="py-1 px-1 shadow-sm text-sm font-extrabold text-white focus:outline-none"
+              title="Play"
+            >
+              ▷
+            </button>
+            <button
+              id="buttonMute"
+              class="w-10  py-1 px-1 shadow-sm text-sm font-extrabold text-white focus:outline-none"
+              title="Mute"
+            >
+            </button>
+            <input
+              id="bar-duration"
+              type="range" 
+              name="volume"
+              class="ml-2 w-28 focus:outline-none"
+              color="black"
+              min="0"
+              max="100"
+              step="1"
+              value="0"
+              title="Duración del video"
+              scrollHeight="5"
+              
+            />
+            <span id="texto-duracion" class ="ml-2 py-1 text-xs font-bold text-yellow-200">00:00/00:00</span>
+            <div id="containerBarVolume" class ="ml-2 mr-2">
+              <input
+                id="bar-volume"
+                type="range" 
+                name="playbackRate"
+                class="ml-2 w-36 focus:outline-none mb-4"
+                min="0"
+                max="100"
+                step="1"
+                title="Volumen"
+              />
+              <div id="selector-volume">
+                <div class="selector-volume-Btn mb-1"></div>
+                <div id="selector-volume-value" class="mt-4"></div>                
+              </div>
+            </div> 
+            <button
+              id="buttonSkipLess"
+              data-skip="-10"
+              class="ml-6 w-10 player-button skip-less py-1 px-1 border border-transparent rounded-full shadow-sm text-sm font-medium rounded-md text-black bg-white-200 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              title="Atrasar"
+            >
+            «10s
+            </button>
+            <button
+              id="buttonSkipPlus"
+              data-skip="-10"
+              class="ml-2 w-10 player-button skip-plus py-1 px-1 border border-transparent rounded-full shadow-sm text-sm font-medium rounded-md text-black bg-white-200 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              title="Adelantar"
+            >
+              25s»
+            </button>
+
+            <button
+              id="buttonScreen"
+              class="w-10  py-1 px-1 shadow-sm text-sm font-extrabold text-white focus:outline-none"
+              title="Full screen"
+            >
+            </button>
+
+          </div>
+          <div id="quitar">
+            <button type="hidden" id="btn-mute" class="w-6 align-top" aria-label="Silenciar (m)" title="Silenciar (m)"><svg id="icon-mute" height="100%" version="1.1" viewBox="0 0 36 36" width="100%"><use class="ytp-svg-shadow" xlink:href="#ytp-id-14"></use><use class="ytp-svg-shadow" xlink:href="#ytp-id-15"></use><defs><clipPath id="ytp-svg-volume-animation-mask"><path d="m 14.35,-0.14 -5.86,5.86 20.73,20.78 5.86,-5.91 z" fill="#ccd"></path><path d="M 7.07,6.87 -1.11,15.33 19.61,36.11 27.80,27.60 z"></path><path class="ytp-svg-volume-animation-mover" d="M 9.09,5.20 6.47,7.88 26.82,28.77 29.66,25.99 z" transform="translate(0, 0)"></path></clipPath><clipPath id="ytp-svg-volume-animation-slash-mask"><path class="ytp-svg-volume-animation-mover" d="m -11.45,-15.55 -4.44,4.51 20.45,20.94 4.55,-4.66 z" transform="translate(0, 0)"></path></clipPath></defs><path class="ytp-svg-fill ytp-svg-volume-animation-speaker" clip-path="url(#ytp-svg-volume-animation-mask)" d="M8,21 L12,21 L17,26 L17,10 L12,15 L8,15 L8,21 Z M19,14 L19,22 C20.48,21.32 21.5,19.77 21.5,18 C21.5,16.26 20.48,14.74 19,14 Z" fill="#fff" id="ytp-id-14"></path><path class="ytp-svg-fill ytp-svg-volume-animation-hider" clip-path="url(#ytp-svg-volume-animation-slash-mask)" d="M 9.25,9 7.98,10.27 24.71,27 l 1.27,-1.27 Z" fill="#fff" id="ytp-id-15" style="display: none;"></path></svg></button>
+            <button type="hidden" id="btn-unmute" class="w-6 align-top" aria-label="Activar sonido (m)" title="Activar sonido (m)"><svg id="icon-unmute" height="100%" version="1.1" viewBox="0 0 36 36" width="100%"><use class="ytp-svg-shadow" xlink:href="#ytp-id-529"></use><path class="ytp-svg-fill" d="m 21.48,17.98 c 0,-1.77 -1.02,-3.29 -2.5,-4.03 v 2.21 l 2.45,2.45 c .03,-0.2 .05,-0.41 .05,-0.63 z m 2.5,0 c 0,.94 -0.2,1.82 -0.54,2.64 l 1.51,1.51 c .66,-1.24 1.03,-2.65 1.03,-4.15 0,-4.28 -2.99,-7.86 -7,-8.76 v 2.05 c 2.89,.86 5,3.54 5,6.71 z M 9.25,8.98 l -1.27,1.26 4.72,4.73 H 7.98 v 6 H 11.98 l 5,5 v -6.73 l 4.25,4.25 c -0.67,.52 -1.42,.93 -2.25,1.18 v 2.06 c 1.38,-0.31 2.63,-0.95 3.69,-1.81 l 2.04,2.05 1.27,-1.27 -9,-9 -7.72,-7.72 z m 7.72,.99 -2.09,2.08 2.09,2.09 V 9.98 z" fill="#fff" id="ytp-id-529"></path></svg></button>
+            <button type="hidden" id="btn-full-screen" class="w-6 align-top" title="Pantalla completa (f)"><svg id="icon-full-screen" height="100%" version="1.1" viewBox="0 0 36 36" width="100%"><g class="ytp-fullscreen-button-corner-0"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2413"></use><path class="ytp-svg-fill" d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z" fill="#eee" id="ytp-id-2413"></path></g><g class="ytp-fullscreen-button-corner-1"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2414"></use><path class="ytp-svg-fill" d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z" id="ytp-id-2414"></path></g><g class="ytp-fullscreen-button-corner-2"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2415"></use><path class="ytp-svg-fill" d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z" fill="#fff" id="ytp-id-2415"></path></g><g class="ytp-fullscreen-button-corner-3"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2416"></use><path class="ytp-svg-fill" d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z" id="ytp-id-2416"></path></g></svg></button>
+            <button type="hidden" id="btn-normal-screen" class="w-6 align-top" title="Salir de pantalla completa (f)"><svg id="icon-normal-screen" height="100%" version="1.1" viewBox="0 0 36 36" width="100%"><g class="ytp-fullscreen-button-corner-2"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2417"></use><path class="ytp-svg-fill" d="m 14,14 -4,0 0,2 6,0 0,-6 -2,0 0,4 0,0 z" fill="#eee" id="ytp-id-2417"></path></g><g class="ytp-fullscreen-button-corner-3"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2418"></use><path class="ytp-svg-fill" d="m 22,14 0,-4 -2,0 0,6 6,0 0,-2 -4,0 0,0 z" id="ytp-id-2418"></path></g><g class="ytp-fullscreen-button-corner-0"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2419"></use><path class="ytp-svg-fill" d="m 20,26 2,0 0,-4 4,0 0,-2 -6,0 0,6 0,0 z" fill="#fff" id="ytp-id-2419"></path></g><g class="ytp-fullscreen-button-corner-1"><use class="ytp-svg-shadow" xlink:href="#ytp-id-2420"></use><path class="ytp-svg-fill" d="m 10,22 4,0 0,4 2,0 0,-6 -6,0 0,2 0,0 z" id="ytp-id-2420"></path></g></svg></button>
+          </div>
+        </main>
       </div>
     </div>
+
+    <footer class="text-center mt-48 p-6 text-sm text-gray-500">
+      <p>
+        Powered by
+        <a href="https://openweathermap.org" target="_blank">https://openweathermap.org</a>
+        | Made by <a href="https://robmvsk.github.io/workshop-3-clima">@robmvsk</a>
+      </p>
+    </footer>
 
     <!-- Add more scripts here -->
     <script type="module" src="%PUBLIC_URL%/_dist_/index.js"></script>
