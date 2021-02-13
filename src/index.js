@@ -106,6 +106,12 @@ video.addEventListener('click', togglePlay)
 playPause.addEventListener('click', togglePlay)
 //togglePlay(video)
 
+const sound = () => {
+    video.muted = false
+    muteUnmuted.title ="Silenciar"
+    muteUnmuted.firstElementChild.remove()
+    muteUnmuted.append(iconMute)
+}
 const noSound = () => {
     video.muted = true
     muteUnmuted.title ="Escuchar"
@@ -115,10 +121,7 @@ const noSound = () => {
 
 const toggleMute = () => {
     if (video.muted) {
-        video.muted = false
-        muteUnmuted.title ="Silenciar"
-        muteUnmuted.firstElementChild.remove()
-        muteUnmuted.append(iconMute)
+        sound()
     } else {
         noSound()
     }
@@ -213,9 +216,11 @@ const setVolume = () => {
 const deslizaVolumen = () => {
     selectorVolume.style.left = (barVolume.value * (85/100 )) + "%"
     selectorVolumeValue.textContent = barVolume.value + "%"
-   if (barVolume.value <= 1) {
-    noSound()
-   }
+    if (barVolume.value <= 1) {
+        noSound()
+    } else {
+       sound()
+    }
 }
 
 //Refernecia para cambiar los colores de la scrollBar:
@@ -225,8 +230,8 @@ const deslizaVolumen = () => {
 //https://marabelia.com/css-font-size-responsive/
 
 barVolume.addEventListener('change', setVolume)
-barVolume.addEventListener('input', deslizaVolumen)
-selectorVolume.addEventListener('mousemove', deslizaVolumen)
+barVolume.addEventListener('input', setVolume)
+selectorVolume.addEventListener('mousemove', setVolume)
 
 
 const toggleFullScreen = () => {
